@@ -565,7 +565,7 @@ dotnet_diagnostic.rcs0053.severity = warning
 # Fix formatting of a call chain
 dotnet_diagnostic.rcs0054.severity = none
 # Fix formatting of a binary expression chain
-dotnet_diagnostic.rcs0055.severity = error
+dotnet_diagnostic.rcs0055.severity = none
 # A line is too long
 dotnet_diagnostic.rcs0056.severity = error
 roslynator_max_line_length = 150

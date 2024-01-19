@@ -1,4 +1,5 @@
-﻿using WebApiTemplate.Connectors.Database;
+﻿using Microsoft.Extensions.DependencyInjection.Extensions;
+using WebApiTemplate.Connectors.Database;
 using WebApiTemplate.Modules.Weather;
 using WebApiTemplate.Security;
 
@@ -23,27 +24,17 @@ public static class DependencyInjectionSetup
 
     private static IServiceCollection RegisterHandlers(this IServiceCollection services)
     {
-        services.AddScoped<GetWeatherForecastHandler>();
-        services.AddScoped<PostWeatherForecastHandler>();
+        var handlerClasses = typeof(GetWeatherForecastHandler).Assembly.GetExportedTypes()
+            .Where(type =>
+                type.Namespace?.StartsWith("WebApiTemplate.Modules", StringComparison.OrdinalIgnoreCase) == true
+                && type.IsClass
+                && type.Name.EndsWith("Handler", StringComparison.OrdinalIgnoreCase));
+
+        foreach (var classImplementation in handlerClasses)
+        {
+            services.TryAddScoped(classImplementation);
+        }
+
         return services;
     }
-
-    // private static IServiceCollection RegisterHandlers(this IServiceCollection services)
-    // {
-    //     var handlerClasses = typeof(WeatherForecastHandler).Assembly.GetExportedTypes()
-    //         .Where(type =>
-    //             type.Namespace?.StartsWith("WebApiTemplate.CoreLogic.Handlers", StringComparison.OrdinalIgnoreCase) == true
-    //             && type.GetInterfaces().Length > 0
-    //             && !type.IsEnum);
-    //
-    //     foreach (var classImplementation in handlerClasses)
-    //     {
-    //         foreach (var classInterface in classImplementation.GetInterfaces())
-    //         {
-    //             services.TryAddTransient(classInterface, classImplementation);
-    //         }
-    //     }
-    //
-    //     return services;
-    // }
 }
