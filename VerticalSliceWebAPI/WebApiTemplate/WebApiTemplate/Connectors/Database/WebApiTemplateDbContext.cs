@@ -7,8 +7,7 @@ namespace WebApiTemplate.Connectors.Database;
 
 public class WebApiTemplateDbContext : DbContext
 {
-    public WebApiTemplateDbContext()
-        => ChangeTracker.LazyLoadingEnabled = false;
+    public WebApiTemplateDbContext() => ChangeTracker.LazyLoadingEnabled = false;
 
     public WebApiTemplateDbContext(DbContextOptions<WebApiTemplateDbContext> options)
         : base(options) => ChangeTracker.LazyLoadingEnabled = false;

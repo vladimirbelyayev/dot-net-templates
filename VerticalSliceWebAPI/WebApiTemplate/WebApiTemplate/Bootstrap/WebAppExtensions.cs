@@ -6,10 +6,7 @@ public static class WebAppExtensions
 {
     public static WebApplication UseWebApiFeatures(this WebApplication app)
     {
-        app.UseFastEndpoints(config =>
-        {
-            config.Endpoints.ShortNames = true;
-        });
+        app.UseFastEndpoints(config => config.Endpoints.ShortNames = true);
 
         return app;
     }

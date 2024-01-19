@@ -21,10 +21,7 @@ namespace WebApiTemplate.Connectors.Database.Migrations
                     TemperatureC = table.Column<int>(type: "INTEGER", nullable: false),
                     Summary = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_WeatherForecasts", x => x.Id);
-                });
+                constraints: table => table.PrimaryKey("PK_WeatherForecasts", x => x.Id));
         }
 
         /// <inheritdoc />
