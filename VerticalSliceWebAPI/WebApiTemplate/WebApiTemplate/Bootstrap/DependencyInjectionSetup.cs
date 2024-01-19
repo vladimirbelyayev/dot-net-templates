@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+﻿using Microsoft.Extensions.DependencyInjection.Extensions;
 using WebApiTemplate.Connectors.Database;
 using WebApiTemplate.Modules.Weather;
 using WebApiTemplate.Security;
