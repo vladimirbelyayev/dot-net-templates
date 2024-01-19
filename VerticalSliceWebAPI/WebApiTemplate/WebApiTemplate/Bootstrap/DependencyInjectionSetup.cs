@@ -21,7 +21,6 @@ public static class DependencyInjectionSetup
     {
         services.AddOptions<SecurityConfigurationOptions>()
             .Bind(configuration.GetSection(SecurityConfigurationOptions.ConfigurationSectionName))
-            //See https://learn.microsoft.com/en-us/dotnet/core/extensions/options#options-validation for validation
             .ValidateDataAnnotations();
 
         return services;
