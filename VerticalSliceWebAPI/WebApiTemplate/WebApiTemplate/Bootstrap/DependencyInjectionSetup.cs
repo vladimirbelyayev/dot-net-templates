@@ -24,7 +24,8 @@ public static class DependencyInjectionSetup
 
     private static IServiceCollection RegisterHandlers(this IServiceCollection services)
     {
-        services.AddScoped<WeatherForecastHandler>();
+        services.AddScoped<GetWeatherForecastHandler>();
+        services.AddScoped<PostWeatherForecastHandler>();
         return services;
     }
 

@@ -5,18 +5,18 @@ using WebApiTemplate.Connectors.Database.Entities;
 namespace WebApiTemplate.Modules.Weather;
 
 [UsedImplicitly]
-public class GetWeatherForecast(WeatherForecastHandler handler): EndpointWithoutRequest<IEnumerable<GetWeatherForecastResponse>>
+public class GetWeatherForecast(GetWeatherForecastHandler handler): EndpointWithoutRequest<IEnumerable<GetWeatherForecastResponse>>
 {
     public override void Configure()
     {
         // Endpoint setup (behaviour)
-        Get("/weather");
-        Tags("Weather");
+        Get(WeatherUrls.Weather);
+        Tags(WeatherUrls.SwaggerTag);
         AllowAnonymous();
 
         // Swagger documentation
         Description(swagger => swagger
-            .WithTags("Weather"));
+            .WithTags(WeatherUrls.SwaggerTag));
         Summary(swagger =>
         {
             swagger.Summary = "Classic VS template sample of weather data.";
@@ -59,7 +59,7 @@ public class GetWeatherForecastResponse
 }
 
 [UsedImplicitly]
-public class WeatherForecastHandler
+public class GetWeatherForecastHandler
 {
     private static readonly string[] Summaries =
     [
