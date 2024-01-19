@@ -61,12 +61,14 @@ public class PostWeatherForecastHandler(WebApiTemplateDbContext webApiTemplateDb
 {
     public async Task Handle(PostWeatherForecastRequest req, CancellationToken cancellationToken)
     {
-        await webApiTemplateDbContext.WeatherForecasts.AddAsync(new WeatherForecastRecord
-        {
-            Date = req.Date,
-            Summary = req.Summary,
-            TemperatureC = req.TemperatureC
-        }, cancellationToken);
+        await webApiTemplateDbContext.WeatherForecasts.AddAsync(
+            new WeatherForecastRecord
+                {
+                    Date = req.Date,
+                    Summary = req.Summary,
+                    TemperatureC = req.TemperatureC
+                },
+            cancellationToken);
 
         await webApiTemplateDbContext.SaveChangesAsync(cancellationToken);
     }

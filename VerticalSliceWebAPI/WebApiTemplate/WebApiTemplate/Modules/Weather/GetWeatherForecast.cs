@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
-using WebApiTemplate.Connectors.Database.Entities;
+using Microsoft.EntityFrameworkCore;
+using WebApiTemplate.Connectors.Database;
 
 namespace WebApiTemplate.Modules.Weather;
 
@@ -20,7 +21,7 @@ public class GetWeatherForecast(GetWeatherForecastHandler handler): EndpointWith
         Summary(swagger =>
         {
             swagger.Summary = "Classic VS template sample of weather data.";
-            swagger.Description = "Returns list of objects with random weather data.";
+            swagger.Description = "Returns list of objects with weather data from DB.";
             swagger.Response<GetWeatherForecastResponse>((int)HttpStatusCode.OK, "Returns short list of weather data.");
             swagger.ResponseExamples[200] = new GetWeatherForecastResponse
                 { Date = new DateOnly(2023, 1, 12), TemperatureC = 12, Summary = "Chilly" };
@@ -28,7 +29,7 @@ public class GetWeatherForecast(GetWeatherForecastHandler handler): EndpointWith
     }
 
     public override async Task HandleAsync(CancellationToken cancellationToken) =>
-        await SendOkAsync(await handler.Handle(), cancellationToken);
+        await SendOkAsync(await handler.Handle(cancellationToken), cancellationToken);
 }
 
 /// <summary>
@@ -59,26 +60,14 @@ public class GetWeatherForecastResponse
 }
 
 [UsedImplicitly]
-public class GetWeatherForecastHandler
+public class GetWeatherForecastHandler(WebApiTemplateDbContext dbContext)
 {
-    private static readonly string[] Summaries =
-    [
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    ];
-
-    public async ValueTask<IEnumerable<GetWeatherForecastResponse>> Handle() =>
-        await ValueTask.FromResult(Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecastRecord
-                {
-                    Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    TemperatureC = Random.Shared.Next(-20, 55),
-                    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-                })
-            .Select(domainModel => new GetWeatherForecastResponse
-            {
-                Date = domainModel.Date,
-                TemperatureC = domainModel.TemperatureC,
-                Summary = domainModel.Summary
-            })
-            .ToList());
+    public async Task<IEnumerable<GetWeatherForecastResponse>> Handle(CancellationToken cancellationToken) =>
+        await dbContext.WeatherForecasts.Select(x =>
+            new GetWeatherForecastResponse
+        {
+            Date = x.Date,
+            TemperatureC = x.TemperatureC,
+            Summary = x.Summary
+        }).ToListAsync(cancellationToken);
 }

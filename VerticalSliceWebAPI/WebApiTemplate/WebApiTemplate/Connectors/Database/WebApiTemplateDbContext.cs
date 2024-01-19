@@ -29,7 +29,6 @@ public class WebApiTemplateDbContext : DbContext
             return;
         }
 
-
         // FOR TESTING here setting up SQLite specifics!
         // SQLite does not have proper support for DateTimeOffset via Entity Framework Core, see the limitations
         // here: https://docs.microsoft.com/en-us/ef/core/providers/sqlite/limitations#query-limitations

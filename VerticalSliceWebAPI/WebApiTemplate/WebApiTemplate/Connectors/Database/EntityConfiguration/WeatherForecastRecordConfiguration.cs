@@ -11,5 +11,8 @@ public class WeatherForecastRecordConfiguration: IEntityTypeConfiguration<Weathe
         builder.HasKey(e => e.Id);
         builder.Property(e => e.Id)
             .IsRequired();
+
+        builder.Property(e => e.Summary)
+            .HasMaxLength(500);
     }
 }

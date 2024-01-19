@@ -6,7 +6,6 @@ namespace WebApiTemplate.Bootstrap;
 
 public static class DependencyInjectionSetup
 {
-
     public static IServiceCollection AddDependencies(this IServiceCollection services, IConfiguration configuration)
     {
         services.RegisterConfigurationObjects(configuration);
@@ -28,7 +27,6 @@ public static class DependencyInjectionSetup
         services.AddScoped<PostWeatherForecastHandler>();
         return services;
     }
-
 
     // private static IServiceCollection RegisterHandlers(this IServiceCollection services)
     // {
